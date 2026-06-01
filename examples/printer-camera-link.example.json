@@ -1,0 +1,38 @@
+{
+  "printers": [
+    {
+      "id": "workbench",
+      "name": "Workbench Printer",
+      "type": "octoprint",
+      "base_url": "http://octopi.local",
+      "api_key_env": "OCTOPRINT_API_KEY",
+      "camera_id": "printer-cam"
+    }
+  ],
+  "camera_service": {
+    "base_url": "http://127.0.0.1:8765",
+    "printer_camera_map": {
+      "workbench": "printer-cam"
+    },
+    "default_checks": [
+      {
+        "id": "bed-clear",
+        "instruction": "The print bed is clear and ready for a new print.",
+        "roi": {
+          "name": "print-bed"
+        },
+        "confidence_threshold": 0.8
+      },
+      {
+        "id": "spaghetti-watch",
+        "instruction": "Alert if the print appears detached or spaghetti-like extrusion is visible.",
+        "roi": {
+          "name": "print-bed"
+        },
+        "cadence_seconds": 30,
+        "confidence_threshold": 0.8,
+        "cooldown_seconds": 300
+      }
+    ]
+  }
+}

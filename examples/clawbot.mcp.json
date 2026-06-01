@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "mcp-printer": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_printer",
+        "--config",
+        "/absolute/path/to/printers.json"
+      ],
+      "env": {
+        "OCTOPRINT_API_KEY": "your-octoprint-key",
+        "MOONRAKER_API_KEY": "your-moonraker-key"
+      }
+    }
+  }
+}

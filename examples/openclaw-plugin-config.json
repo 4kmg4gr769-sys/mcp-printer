@@ -1,0 +1,29 @@
+{
+  "plugins": {
+    "entries": {
+      "openclaw-mcp-printer": {
+        "enabled": true,
+        "config": {
+          "printers": [
+            {
+              "id": "workbench",
+              "name": "Workbench Printer",
+              "type": "octoprint",
+              "baseUrl": "http://octopi.local",
+              "apiKeyEnv": "OCTOPRINT_API_KEY",
+              "cameraId": "printer-cam"
+            },
+            {
+              "id": "voron",
+              "name": "Voron",
+              "type": "moonraker",
+              "baseUrl": "http://voron.local",
+              "apiKeyEnv": "MOONRAKER_API_KEY",
+              "cameraId": "voron-cam"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "printers": [
+    {
+      "id": "workbench",
+      "name": "Workbench Printer",
+      "type": "octoprint",
+      "base_url": "http://octopi.local",
+      "api_key_env": "OCTOPRINT_API_KEY",
+      "camera_id": "printer-cam"
+    },
+    {
+      "id": "voron",
+      "name": "Voron",
+      "type": "moonraker",
+      "base_url": "http://voron.local",
+      "api_key_env": "MOONRAKER_API_KEY",
+      "camera_id": "voron-cam"
+    }
+  ]
+}

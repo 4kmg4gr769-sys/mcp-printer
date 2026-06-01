@@ -1,0 +1,68 @@
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from .config import DEFAULT_CONFIG, load_config, write_default_config
+from .server import PrinterMcpServer
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="MCP server for 3D printers.")
+    parser.add_argument("--config", default="printers.json", help="Path to printer config JSON.")
+    parser.add_argument("--init-config", action="store_true", help="Create an example config and exit.")
+    parser.add_argument("--print-clawbot-config", action="store_true", help="Print a Clawbot/OpenClaw MCP server entry.")
+    parser.add_argument("--version", action="store_true", help="Print version metadata and exit.")
+    args = parser.parse_args()
+
+    if args.version:
+        print(json.dumps({"name": "mcp-printer", "credits": "Steve Villari and Villocity Labs"}))
+        return 0
+
+    config_path = Path(args.config)
+    if args.init_config:
+        write_default_config(config_path)
+        print(f"Wrote {config_path}")
+        return 0
+
+    if args.print_clawbot_config:
+        print(json.dumps(clawbot_config(config_path), indent=2))
+        return 0
+
+    if not config_path.exists():
+        write_default_config(config_path)
+        print(
+            f"No config found, so an example was written to {config_path}. "
+            "Edit it, then restart the server.",
+            file=sys.stderr,
+        )
+
+    config = load_config(config_path) if config_path.exists() else DEFAULT_CONFIG
+    PrinterMcpServer(config).run()
+    return 0
+
+
+def clawbot_config(config_path: Path) -> dict[str, object]:
+    project_root = Path(__file__).resolve().parent.parent
+    venv_bin = project_root / ".venv" / "bin" / "mcp-printer"
+    command = str(venv_bin if venv_bin.exists() else Path(sys.executable))
+    args = ["--config", str(config_path.resolve())]
+
+    if not venv_bin.exists():
+        args = ["-m", "mcp_printer", *args]
+
+    return {
+        "command": command,
+        "args": args,
+        "env": {
+            "OCTOPRINT_API_KEY": "replace-with-your-octoprint-key",
+            "MOONRAKER_API_KEY": "replace-with-your-moonraker-key",
+        },
+        "cwd": str(project_root),
+    }
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,87 @@
+{
+  "id": "openclaw-mcp-printer",
+  "name": "MCP Printer",
+  "description": "Send jobs to OctoPrint and Moonraker 3D printers.",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "required": [
+      "printers"
+    ],
+    "properties": {
+      "printers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "type",
+            "baseUrl"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Stable printer id, for example workbench."
+            },
+            "name": {
+              "type": "string",
+              "description": "Human-readable printer name."
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "const": "octoprint"
+                },
+                {
+                  "type": "string",
+                  "const": "moonraker"
+                }
+              ],
+              "description": "Printer API type."
+            },
+            "baseUrl": {
+              "type": "string",
+              "description": "Printer API base URL, for example http://octopi.local."
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "description": "Environment variable containing the printer API key."
+            },
+            "apiKey": {
+              "type": "string",
+              "description": "Printer API key. Prefer apiKeyEnv for shared configs."
+            },
+            "cameraId": {
+              "type": "string",
+              "description": "Optional camera id from MCP Camera Watch."
+            }
+          }
+        },
+        "description": "3D printers this plugin can control.",
+        "default": []
+      }
+    },
+    "additionalProperties": false
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "printer_list",
+      "printer_status",
+      "printer_upload_gcode",
+      "printer_start_print",
+      "printer_pause",
+      "printer_resume",
+      "printer_cancel",
+      "printer_emergency_stop"
+    ]
+  },
+  "toolMetadata": {
+    "printer_emergency_stop": {
+      "optional": true
+    }
+  }
+}

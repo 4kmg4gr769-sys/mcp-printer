@@ -14,7 +14,7 @@ Local-first MCP server for camera watch instructions, scene descriptions, and vi
 
 Built by Steve Villari and Villocity Labs.
 
-GitHub: https://github.com/4kmg4gr769-sys/mcp-camera-watch
+GitHub: https://github.com/Villocity-Labs/mcp-camera-watch
 
 ## Tool Ideas
 

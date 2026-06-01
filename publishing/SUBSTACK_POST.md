@@ -26,7 +26,7 @@ Current capabilities:
 
 GitHub:
 
-https://github.com/4kmg4gr769-sys/mcp-printer
+https://github.com/Villocity-Labs/mcp-printer
 
 ## MCP Camera Watch
 
@@ -58,7 +58,7 @@ Example printer use cases:
 
 GitHub:
 
-https://github.com/4kmg4gr769-sys/mcp-camera-watch
+https://github.com/Villocity-Labs/mcp-camera-watch
 
 ## Why Two Projects?
 

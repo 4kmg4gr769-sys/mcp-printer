@@ -14,7 +14,7 @@ Local-first MCP and OpenClaw tools for OctoPrint and Moonraker/Klipper 3D printe
 
 Built by Steve Villari and Villocity Labs.
 
-GitHub: https://github.com/4kmg4gr769-sys/mcp-printer
+GitHub: https://github.com/Villocity-Labs/mcp-printer
 
 ## Features
 
@@ -35,4 +35,4 @@ This project is local-first. Printer URLs and API keys should remain on the oper
 
 See the GitHub README for the latest setup instructions:
 
-https://github.com/4kmg4gr769-sys/mcp-printer
+https://github.com/Villocity-Labs/mcp-printer

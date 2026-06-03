@@ -198,6 +198,7 @@ PY
 }
 
 ensure_openclaw_running() {
+  local quiet="${1:-0}"
   local status_json="$WORK_DIR/openclaw-gateway-status.json"
   local status_err="$WORK_DIR/openclaw-gateway-status.err"
   local health_json="$WORK_DIR/openclaw-health.json"
@@ -211,6 +212,10 @@ ensure_openclaw_running() {
     return 0
   fi
 
+  if [[ "$quiet" == "1" ]]; then
+    return 1
+  fi
+
   if [[ -s "$status_err" ]]; then
     sed 's/^/  /' "$status_err" >&2
   fi
@@ -218,6 +223,19 @@ ensure_openclaw_running() {
     sed 's/^/  /' "$health_err" >&2
   fi
   return 1
+}
+
+wait_for_openclaw_running() {
+  local deadline=$((SECONDS + 60))
+
+  while (( SECONDS < deadline )); do
+    if ensure_openclaw_running 1; then
+      return 0
+    fi
+    sleep 2
+  done
+
+  ensure_openclaw_running
 }
 
 select_mode() {
@@ -440,7 +458,7 @@ restart_gateway_if_requested() {
   oc gateway restart --safe --json >"$WORK_DIR/openclaw-gateway-restart.json"
 
   log "Verifying OpenClaw gateway after restart"
-  ensure_openclaw_running \
+  wait_for_openclaw_running \
     || die "OpenClaw gateway did not become reachable after restart." 2
 }
 

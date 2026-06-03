@@ -437,7 +437,7 @@ restart_gateway_if_requested() {
     || die "This OpenClaw CLI does not support 'openclaw gateway restart'." 2
 
   log "Restarting OpenClaw gateway safely"
-  oc gateway restart --safe --wait 30s --json >"$WORK_DIR/openclaw-gateway-restart.json"
+  oc gateway restart --safe --json >"$WORK_DIR/openclaw-gateway-restart.json"
 
   log "Verifying OpenClaw gateway after restart"
   ensure_openclaw_running \

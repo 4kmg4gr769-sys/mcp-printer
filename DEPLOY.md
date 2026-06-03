@@ -4,6 +4,45 @@ This guide assumes you have Clawbot/OpenClaw installed and want it to launch MCP
 
 MCP Printer was built by Steve Villari and Villocity Labs.
 
+## Happy Path: One Command
+
+Start with a running OpenClaw/Clawbot gateway, then run this from the repository root:
+
+```bash
+scripts/install_openclaw_e2e.sh --restart-gateway
+```
+
+The command performs the full tester path:
+
+- Runs [scripts/install_local.sh](scripts/install_local.sh) to create `.venv`, install MCP Printer editable, run unit tests, initialize `printers.json` when missing, and generate `clawbot-mcp-printer.server.json`.
+- Runs [scripts/smoke_mcp.sh](scripts/smoke_mcp.sh) and asserts that MCP `initialize` returns `serverInfo.name: "mcp-printer"` and that the printer tools are present.
+- Detects `openclaw`, verifies the gateway is reachable, and chooses the safest registration mode.
+- In default `auto` mode, registers the standard MCP stdio server with `openclaw mcp set mcp-printer ...` when the name is unused or already matches this checkout.
+- Stops before replacing a different existing `mcp-printer` server or plugin. Use `--force` only when you intentionally want this checkout to replace the existing entry.
+- With `--restart-gateway`, asks OpenClaw to restart safely after registration and verifies the gateway is reachable again.
+
+The smoke test does not call printer status, upload files, move motors, heat tools, or start a print. It verifies install, MCP protocol startup, tool discovery, OpenClaw detection, and OpenClaw registration.
+
+After the command passes, ask Clawbot/OpenClaw:
+
+```text
+List my configured 3D printers.
+```
+
+To exercise the native OpenClaw plugin wrapper instead of the stdio MCP server, run:
+
+```bash
+scripts/install_openclaw_e2e.sh --mode plugin --restart-gateway
+```
+
+If your OpenClaw install uses a named profile, add:
+
+```bash
+scripts/install_openclaw_e2e.sh --openclaw-profile your-profile --restart-gateway
+```
+
+The manual steps below are still useful for understanding or debugging the same flow.
+
 ## 1. Prepare This Project
 
 From this folder:

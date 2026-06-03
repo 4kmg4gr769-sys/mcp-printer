@@ -23,4 +23,7 @@ Next files:
 
 To smoke test:
   scripts/smoke_mcp.sh
+
+To install into a running OpenClaw/Clawbot setup and verify end to end:
+  scripts/install_openclaw_e2e.sh --restart-gateway
 EOF

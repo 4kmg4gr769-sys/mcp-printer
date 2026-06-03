@@ -69,6 +69,20 @@ python3 -m mcp_printer --config ./printers.json
 
 ## Add To Clawbot
 
+For a running OpenClaw/Clawbot setup, the one-command tester path is:
+
+```bash
+scripts/install_openclaw_e2e.sh --restart-gateway
+```
+
+That command reuses [scripts/install_local.sh](scripts/install_local.sh) and [scripts/smoke_mcp.sh](scripts/smoke_mcp.sh), detects the OpenClaw CLI and running gateway, registers `mcp-printer` when the name is unused or already matches this checkout, and verifies the saved OpenClaw registration. It will stop before replacing a different existing `mcp-printer` entry unless you pass `--force`.
+
+The default mode registers MCP Printer as a standard MCP stdio server. To test the native OpenClaw plugin wrapper instead:
+
+```bash
+scripts/install_openclaw_e2e.sh --mode plugin --restart-gateway
+```
+
 For a full walkthrough, see [DEPLOY.md](DEPLOY.md).
 For community publishing notes, see [PUBLISH.md](PUBLISH.md).
 
